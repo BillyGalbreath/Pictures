@@ -1,0 +1,18 @@
+name: "${project.name}"
+main: "${project.groupId}.${project.artifactId}.${project.name}"
+version: "${project.version}"
+description: "${project.name} Bukkit Plugin"
+author: "BillyGalbreath"
+api-version: "1.13"
+
+commands:
+  pictures:
+    description: Manage plugin
+    usage: /<command> (reload | create)
+    aliases:
+      - picture
+
+permissions:
+  command.stub:
+    description: Allows to manage plugin
+    default: op
