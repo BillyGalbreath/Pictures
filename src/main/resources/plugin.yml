@@ -13,6 +13,6 @@ commands:
       - picture
 
 permissions:
-  command.stub:
+  command.pictures:
     description: Allows to manage plugin
     default: op
