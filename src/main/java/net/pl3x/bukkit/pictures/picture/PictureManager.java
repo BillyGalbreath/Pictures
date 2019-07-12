@@ -6,7 +6,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.map.MapView;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
 import java.io.File;
 import java.net.URL;
 import java.util.HashSet;
@@ -41,6 +43,18 @@ public class PictureManager {
         } catch (Exception ignore) {
         }
         return null;
+    }
+
+    public boolean saveImage(Image image, int id) {
+        try {
+            File dir = new File(Pictures.getInstance().getDataFolder(), "images");
+            if (!dir.exists() && !dir.mkdirs()) {
+                return false;
+            }
+            ImageIO.write((RenderedImage) image, "png", new File(dir, id + ".png"));
+        } catch (Exception e) {
+        }
+        return false;
     }
 
     public void loadPictures() {

@@ -66,8 +66,13 @@ public class CmdPictures implements TabExecutor {
             }
 
             MapView mapView = Bukkit.createMap(Bukkit.getWorlds().get(0));
-            Picture picture = new Picture(image, mapView);
 
+            if (!PictureManager.INSTANCE.saveImage(image, mapView.getId())) {
+                Lang.send(sender, Lang.ERROR);
+                return true;
+            }
+
+            Picture picture = new Picture(image, mapView);
             PictureManager.INSTANCE.addPicture(picture);
 
             if (sender instanceof Player) {
@@ -81,6 +86,7 @@ public class CmdPictures implements TabExecutor {
                     Item drop = player.getWorld().dropItem(player.getLocation(), item);
                     drop.setPickupDelay(0);
                     drop.setOwner(player.getUniqueId());
+                    drop.setCanMobPickup(false);
                 });
             }
 
