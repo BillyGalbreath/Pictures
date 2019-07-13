@@ -8,6 +8,7 @@ api-version: "1.13"
 commands:
   pictures:
     description: Manage plugin
+    permission: command.pictures
     usage: /<command> (reload | create)
     aliases:
       - picture
