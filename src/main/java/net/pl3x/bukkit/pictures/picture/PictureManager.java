@@ -52,7 +52,8 @@ public class PictureManager {
                 return false;
             }
             ImageIO.write((RenderedImage) image, "png", new File(dir, id + ".png"));
-        } catch (Exception e) {
+            return true;
+        } catch (Exception ignore) {
         }
         return false;
     }
