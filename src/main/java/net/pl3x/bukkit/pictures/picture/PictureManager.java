@@ -8,7 +8,6 @@ import org.bukkit.map.MapView;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.awt.image.RenderedImage;
 import java.io.File;
 import java.net.URL;
 import java.util.HashSet;
@@ -27,20 +26,22 @@ public class PictureManager {
         pictures.forEach(picture -> player.sendMap(picture.getMapView()));
     }
 
-    public java.awt.Image downloadImage(String url) {
+    public Image downloadImage(String url) {
         try {
             BufferedImage image = ImageIO.read(new URL(url));
             return image == null ? null : image.getScaledInstance(128, 128, 1);
-        } catch (Exception ignore) {
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return null;
     }
 
-    public java.awt.Image loadImage(File file) {
+    public Image loadImage(File file) {
         try {
             BufferedImage image = ImageIO.read(file);
             return image == null ? null : image.getScaledInstance(128, 128, 1);
-        } catch (Exception ignore) {
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return null;
     }
@@ -51,9 +52,14 @@ public class PictureManager {
             if (!dir.exists() && !dir.mkdirs()) {
                 return false;
             }
-            ImageIO.write((RenderedImage) image, "png", new File(dir, id + ".png"));
+            BufferedImage bufImg = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+            Graphics2D gfx = bufImg.createGraphics();
+            gfx.drawImage(image, 0, 0, null);
+            gfx.dispose();
+            ImageIO.write(bufImg, "png", new File(dir, id + ".png"));
             return true;
-        } catch (Exception ignore) {
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return false;
     }
@@ -75,7 +81,7 @@ public class PictureManager {
         int count = 0;
         for (File file : files) {
             try {
-                java.awt.Image image = loadImage(file);
+                Image image = loadImage(file);
                 if (image == null) {
                     continue;
                 }
@@ -85,7 +91,8 @@ public class PictureManager {
                 }
                 addPicture(new Picture(image, mapView));
                 count++;
-            } catch (Exception ignore) {
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
         Pictures.getInstance().getLogger().info("Loaded " + count + " images from disk");

@@ -61,6 +61,7 @@ public class CmdPictures implements TabExecutor {
         if (args[0].equalsIgnoreCase("create") && args.length > 1) {
             Image image = PictureManager.INSTANCE.downloadImage(args[1]);
             if (image == null) {
+                plugin.getLogger().severe("could not download image: " + args[1]);
                 Lang.send(sender, Lang.ERROR);
                 return true;
             }
@@ -68,6 +69,7 @@ public class CmdPictures implements TabExecutor {
             MapView mapView = Bukkit.createMap(Bukkit.getWorlds().get(0));
 
             if (!PictureManager.INSTANCE.saveImage(image, mapView.getId())) {
+                plugin.getLogger().severe("could not save image to disk: " + args[1] + " -> " + mapView.getId() + ".png");
                 Lang.send(sender, Lang.ERROR);
                 return true;
             }

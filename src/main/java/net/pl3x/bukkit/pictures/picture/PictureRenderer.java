@@ -25,7 +25,8 @@ public class PictureRenderer extends MapRenderer {
         try {
             canvas.drawImage(0, 0, image);
             player.sendMap(map);
-        } catch (Exception ignore) {
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
